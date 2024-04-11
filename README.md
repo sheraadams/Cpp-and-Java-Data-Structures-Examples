@@ -14,6 +14,4 @@ cmake -G Xcode ..
 
 2. Set the working directory in Xcode using Product > Scheme > Edit Scheme > Run Debug > Options > Working Directory > (Check Set Custom) > Project directory/build.
 
-3. Drag the text file to XCode into same directory as the cpp file.
-
-4. Build and run the project.
+3. Build and run the project.
