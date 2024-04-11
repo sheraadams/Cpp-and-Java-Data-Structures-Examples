@@ -1,4 +1,4 @@
-## Data-Structures-Algorithms-Cpp
+## Data Structures & Algorithms Cpp
 
 Data Structures &amp; Algorithms practice in C++ for vector, hash table, binary search tree, and linked list. The algorithms solve reading bids from a text file and efficiently storing, soring, inserting, and deleting from the chosen structure when applicable. 
 
