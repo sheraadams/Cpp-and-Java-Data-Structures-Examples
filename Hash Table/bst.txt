@@ -1,8 +1,23 @@
-MATH201,Discrete Mathematics
-CSCI300,Introduction to Algorithms,CSCI200,MATH201
-CSCI350,Operating Systems,CSCI300
-CSCI101,Introduction to Programming in C++,CSCI100
-CSCI100,Introduction to Computer Science
-CSCI301,Advanced Programming in C++,CSCI101
-CSCI400,Large Software Development,CSCI301,CSCI350
-CSCI200,Data Structures,CSCI101
+MAT241,Modern Statistics with Software,MAT240
+MAT243,Applied Statistics for Science Technology Engineering and Mathematics
+MAT142,Precalculus with Limits
+MAT225,Calculus I: Single-Variable Calculus,MAT140
+IT140,Introduction to Scripting
+CS210,Programming Languages,IT145
+CS300,Data Structures and Algorithms,MAT230,CS210
+DAD220,Introduction to Structured Database Environments
+CS230,Operating Platforms,CS210
+CS250,Software Development Lifecycle,IT145
+CS255,System Analysis and Design,IT145
+CS305,Software Security,IT145
+CS320,Software Testing Automation and Quality Assurance,IT145
+CS330,Computational Graphics and Visualization,CS210
+CS340,Client Server Development,CS320
+CS360,Mobile Architecture and Programming,IT145
+CS370,Current and Emerging Trends in Computer Science,CS300
+CS465,Full Stack Development I,CS340
+IT145,Foundation in Application Development,IT140
+MAT350,Applied Linear Algebra,MAT225
+CS499,Computer Science Capstone,CS340
+MAT230,Discrete Mathematics
+PHY150,Introductory Physics: Mechanics,MAT140
