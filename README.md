@@ -5,7 +5,7 @@ Data Structures &amp; Algorithms practice in C++ for vector, hash table, binary 
 ### XCode Usage
 
 ```bash
-cd /path to the project
+cd path/to/the/project
 mkdir build
 cd build
 cmake -G Xcode ..
