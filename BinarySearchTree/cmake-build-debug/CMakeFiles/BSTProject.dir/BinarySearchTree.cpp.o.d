@@ -1,5 +1,5 @@
 CMakeFiles/BSTProject.dir/BinarySearchTree.cpp.o: \
-  /Users/s.adams/BinarySearchTree/BinarySearchTree.cpp \
+  /Users/s.adams/Cpp/BinarySearchTree/BinarySearchTree.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/iostream \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__assert \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.4.sdk/usr/include/c++/v1/__config \
