@@ -4,7 +4,7 @@ Data Structures &amp; Algorithms practice in C++ for vector, hash table, binary 
 
 ### XCode Usage
 
-1. Open a terminal in the project directory
+1. Open a terminal in the project directory and run the code: 
 
 ```bash
 mkdir build
@@ -12,7 +12,7 @@ cd build
 cmake -G Xcode ..
 ```
 
-2. Set the working directory in Xcode using Product > Scheme > Edit Scheme > Options > Working Directory > (Check Set Custom) > Project directory/build
+2. Set the working directory in Xcode using Product > Scheme > Edit Scheme > Run Debug > Options > Working Directory > (Check Set Custom) > Project directory/build.
 
 3. Drag the text file to XCode into same directory as the cpp file.
 
