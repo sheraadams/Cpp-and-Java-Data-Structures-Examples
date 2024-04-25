@@ -72,9 +72,3 @@ In the end, I learned that it is always important to consider the needs of the e
   <p><strong>Java Slide Show</strong></p>
   <img src="https://sheraadams.github.io/assets/img/slideshow.jpeg" width="800" alt="Java Slide Show">
 </div>
-
-### Data Structures and Algorithms Artifacts
-The artifact for this project includes a zipped folder with the .jar executable and the Eclipse Java project.
-
-  - You can find the [original artifact](https://github.com/sheraadams/sheraadams.github.io/blob/main/artifacts/DSA_Example.zip) here.  
-  - You can find the [enhanced artifact](https://github.com/sheraadams/sheraadams.github.io/blob/main/artifacts/DSA_Enhanced.zip) here.  
