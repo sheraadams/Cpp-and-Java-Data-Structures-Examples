@@ -16,7 +16,7 @@ cmake -G Xcode ..
 
 3. Build and run the project.
 
-## A Data Structure Example 
+## Another Data Structure Example 
 
 I improved a slideshow wireframe which was an early iteration of a vacation booking site. I improved the resource usage and maintainability of the codebase by using an efficient data structure to replace the if-else conditional branching currently controlling the view of the slideshow. Before my contributions, the slideshow operated on a conditional statement that defined the contents of 10 JLabels that were created for each user based on the value of the index variable.  I improved the application by changing this hard-to-maintain conditional statement to an appropriate data structure and ensured that with each slide, only two JLabels were created and subsequently clearing and adding the contents to the panes according to the value the index. My work improved the adaptability, reusability, and scalability of this application by conforming to software engineering best practices. 
 
