@@ -1,4 +1,4 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S "/Users/s.adams/Cpp/Hash Table" -B "/Users/s.adams/Cpp/Hash Table/cmake-build-debug"
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S "/Users/s.adams/Documents/GitHub/Data-Structures-Algorithms-Cpp/Hash Table" -B "/Users/s.adams/Documents/GitHub/Data-Structures-Algorithms-Cpp/Hash Table/cmake-build-debug"
 -- The C compiler identification is AppleClang 15.0.0.15000309
 -- The CXX compiler identification is AppleClang 15.0.0.15000309
 -- Detecting C compiler ABI info
@@ -12,5 +12,5 @@
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
 -- Configuring done (0.3s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/s.adams/Cpp/Hash Table/cmake-build-debug
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/s.adams/Documents/GitHub/Data-Structures-Algorithms-Cpp/Hash Table/cmake-build-debug

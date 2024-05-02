@@ -1,6 +1,4 @@
 #include <iostream>
-#include <time.h>
-#include <iomanip>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -10,10 +8,6 @@ using namespace std;
 //============================================================================
 // Global definitions visible to all methods and classes
 //============================================================================
-
-// forward declarations
-double strToDouble(string str, char ch);
-
 // define a structure to hold bid information
 struct Bid {
     string bidId; // unique identifier
@@ -43,11 +37,6 @@ struct Node {
 //============================================================================
 // Binary Search Tree class definition
 //============================================================================
-
-/**
- * Define a class containing data members and methods to
- * implement a binary search tree
- */
 class BinarySearchTree {
 
 private:
@@ -62,11 +51,11 @@ private:
 public:
     BinarySearchTree();
     virtual ~BinarySearchTree();
+    void DeleteTree(Node* node);
     void InOrder();
     void InOrder(Node* node);
     void PostOrder();
     void PreOrder();
-
     void Insert(Bid bid);
     void Remove(string bidId);
     Bid Search(string bidId);
@@ -80,17 +69,27 @@ BinarySearchTree::BinarySearchTree() {
     root = nullptr;
 }
 
+void BinarySearchTree::DeleteTree(Node* node) {
+    if (node != nullptr) {
+        // Recursively delete left and right subtrees
+        DeleteTree(node->left);
+        DeleteTree(node->right);
+        // Delete the current node
+        delete node;
+    }
+}
+
 /**
  * Destructor
  */
 BinarySearchTree::~BinarySearchTree() {
     // recurse from root deleting every node
+    DeleteTree(root);
 }
 
 /**
  * Traverse the tree in order
  */
-// Note: Zybooks Data Structures and Algorithms section 6.7.1
 void BinarySearchTree::InOrder() {
     // set node to root
     Node* node = root;
@@ -160,7 +159,6 @@ void BinarySearchTree::preOrder(Node* node) {
 /**
  * Insert a bid
  */
- // Zybooks Data Structures and Algorithms section 6.5.1
 void BinarySearchTree::Insert(Bid bid) {
     // if root equal to null ptr
     Node* node = new Node(bid);
@@ -209,7 +207,7 @@ void BinarySearchTree::Insert(Bid bid) {
                 }
             // if the right child of the current is not null
                 else
-                    // move to the right child and contine the loop
+                    // move to the right child and continue the loop
                     curr = curr->right;
         }
     }
@@ -222,7 +220,6 @@ void BinarySearchTree::Insert(Bid bid) {
 /**
  * Remove a bid
  */
- // Zybooks Data Strucutre and Algorithms section 6.6.1
 void BinarySearchTree::Remove(string bidId) {
     // set  parent node of the current node to null
     Node* par = nullptr;
@@ -320,7 +317,6 @@ void BinarySearchTree::Remove(string bidId) {
 /**
  * Search for a bid
  */
- // Zybooks Data Structures and Algorithms section 6.4
 Bid BinarySearchTree::Search(string bidId) {
     // set current node equal to root
     Node* curr = root;
@@ -346,7 +342,6 @@ Bid BinarySearchTree::Search(string bidId) {
 
 /**
  * Add a bid to some node (recursive)
- *
  * @param node Current node in tree
  * @param bid Bid to be added
  */
@@ -404,7 +399,6 @@ void BinarySearchTree::addNode(Node* node, Bid bid) {
 
 /**
  * Display the bid information to the console (std::out)
- *
  * @param bid struct containing the bid info
  */
 void displayBid(Bid bid) {
@@ -428,7 +422,6 @@ void displayBid(Bid bid) {
 
 /**
  * Load a CSV file containing bids into a container
- *
  * @param csvPath the path to the CSV file to load
  * @return a container holding all the bids read
  */
@@ -467,24 +460,8 @@ void loadBids(string filePath, BinarySearchTree* bst) {
     file.close();
 }
 
-/**
- * Simple C function to convert a string to a double
- * after stripping out unwanted char
- *
- * credit: http://stackoverflow.com/a/24875936
- *
- * @param ch The character to strip out
- */
-double strToDouble(string str, char ch) {
-    str.erase(remove(str.begin(), str.end(), ch), str.end());
-    return atof(str.c_str());
-}
-
-/**
- * The one and only main() method
- */
+// main() method
 int main(int argc, char* argv[]) {
-    system("Color 0D");
     // process command line arguments
     string filePath, bidKey;
     switch (argc) {

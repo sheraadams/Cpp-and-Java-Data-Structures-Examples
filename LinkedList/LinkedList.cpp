@@ -5,9 +5,6 @@
 #include <iostream>
 #include <time.h>
 #include <vector>
-
-#include <iostream>
-#include <time.h>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
@@ -18,7 +15,6 @@ using namespace std;
 //============================================================================
 
 // forward declarations
-double strToDouble(string str, char ch);
 
 // define a structure to hold bid information
 struct Bid {
@@ -74,8 +70,7 @@ public:
  * Default constructor
  */
 LinkedList::LinkedList() {
-    // TODO done: (1): Initialize housekeeping variables
-        //set head and tail equal to null
+    //set head and tail equal to null
     head = nullptr;
     tail = nullptr;
 
@@ -101,10 +96,7 @@ LinkedList::~LinkedList() {
 /**
  * Append a new bid to the end of the list
  */
-// Data Structures and Algorithms Zybook 4.2.3
-// section 3.3.1
 void LinkedList::Append(Bid bid) {
-    // TODO done: (2): Implement append logic
     //Create new node
     Node *newNode = new Node(bid);
     //if there is nothing at the head (list is empty)
@@ -127,9 +119,7 @@ void LinkedList::Append(Bid bid) {
 /**
  * Prepend a new bid to the start of the list
  */
- // Data Structures and Algorithms Zybooks 4.2.5
 void LinkedList::Prepend(Bid bid) {
-    // TODO done: (3): Implement prepend logic
     // Create newnode object calling the Node() 
     // function passing bid as parameter
     Node* newNode = new Node(bid);
@@ -154,7 +144,6 @@ void LinkedList::Prepend(Bid bid) {
  * Simple output of all bids in the list
  */
 void LinkedList::PrintList() {
-    // TODO done: (4): Implement print logic
     // create current Node object and set as head node
     // start at the head
     Node* current = this->head;
@@ -169,65 +158,60 @@ void LinkedList::PrintList() {
 
 /**
  * Remove a specified bid
- *
  * @param bidId The bid id to remove from the list
  */
-// Zybooks 4.4.1
 void LinkedList::Remove(string bidId) {
-    // TODO done: (5): Implement remove logic    
-    // define varaibles to traverse list
-    // start at the head  
+    // Define variables to traverse list
+    // Start at the head
     Node* curNode = head;
     Node* prevNode = nullptr;
-    // special case: if matching node is the head
+
+    // Special case: if matching node is the head
     if (curNode != nullptr && curNode->bid.bidId == bidId) {
-        // make head point to the next node in the list
+        // Make head point to the next node in the list
         head = curNode->next;
-        //if head is also the tail
+
+        // If head is also the tail
         if (curNode == tail) {
             tail = nullptr;
         }
-        //delete the current node
+
+        // Delete the current node
         delete curNode;
-        //decrement the size count
+        // Decrement the size count
         --size;
-        // exit function
         return;
     }
-    //while the next node bidID is equal to the search bidid
+
+    // Traverse the list to find the node to remove
     while (curNode != nullptr && curNode->bid.bidId != bidId) {
-        //set currrent node to previous node
         prevNode = curNode;
-        // point to next node
-        curNode= curNode->next;  
-        // if current node is empty
+        curNode = curNode->next;
+
         if (curNode == nullptr) {
-            // terminate the function
             return;
         }
-        // make previous node point to next node
-        prevNode->next = curNode->next;     
-       // if current node is the tail, remove
-        if (curNode ==tail) { 
-            // set tail to the previous node
+
+        prevNode->next = curNode->next;
+
+        if (curNode == tail) {
             tail = prevNode;
         }
     }
-    // delete current node
+
+    // Delete the current node
     delete curNode;
-    //decrement size
+
+    // Decrement size
     --size;
     return;
 }
 
 /**
  * Search for the specified bidId
- *
  * @param bidId The bid id to search for
  */
-// Data Structures and Algorithms Zybooks 4.5.1
 Bid LinkedList::Search(string bidId) {
-    // TODO check: (6): Implement search logic
     // start at the head of the list
     Node* curNode = this->head;      
     // while current node is not empty
@@ -339,21 +323,7 @@ void loadBids(string filePath, LinkedList *LinkedList) {
 }
 
 /**
- * Simple C function to convert a string to a double
- * after stripping out unwanted char
- *
- * credit: http://stackoverflow.com/a/24875936
- *
- * @param ch The character to strip out
- */
-double strToDouble(string str, char ch) {
-    str.erase(remove(str.begin(), str.end(), ch), str.end());
-    return atof(str.c_str());
-}
-
-/**
- * The one and only main() method
- *
+ * main() method
  * @param arg[1] path to CSV file to load from (optional)
  * @param arg[2] the bid Id to use when searching the list (optional)
  */

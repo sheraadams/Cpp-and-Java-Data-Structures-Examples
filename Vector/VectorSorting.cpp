@@ -19,10 +19,7 @@ using namespace std;
 // Global definitions visible to all methods and classes
 //============================================================================
 
-// forward declarations
-double strToDouble(string str, char ch);
-
-// define a structure to hold bid information
+// structure to hold bid information
 struct Bid {
     string bidId; // unique identifier
     string title;
@@ -35,7 +32,6 @@ struct Bid {
 
 /**
  * Display the bid information to the console (std::out)
- *
  * @param bid struct containing the bid info
  */
 void displayBid(Bid bid) {
@@ -57,8 +53,7 @@ void displayBid(Bid bid) {
     return;
 }
 /**
- * Prompt user for bid information using console (std::in)
- *
+ * Prompt user for bid information using console (std::in) &
  * @return Bid struct containing the bid info
  */
 Bid getBid() {
@@ -76,7 +71,6 @@ Bid getBid() {
 
 /**
  * Load a CSV file containing bids into a container
- *
  * @param csvPath the path to the CSV file to load
  * @return a container holding all the bids read
  */
@@ -117,18 +111,15 @@ void loadBids(string filePath, vector<Bid> & bids) {
 }
 
 /**
- * Partition the vector of bids into two parts, low and high
- *
+ * Partition the vector of bids into two parts, low and high.
  * @param bids Address of the vector<Bid> instance to be partitioned
  * @param begin Beginning index to partition
  * @param end Ending index to partition
  */
 
 /*
-the partition() function to separates the data into a high and a 
-low partition.
+the partition() function to separates the data into a high and a low partition.
 */
-// Zybooks Data Structures and Algorithms section 3.18.1
 int partition(vector<Bid>& bids, int begin, int end) {
         // calculate midpoint between begin and end values of bid vector
         int midpoint = begin + (end - begin) / 2;
@@ -167,10 +158,9 @@ int partition(vector<Bid>& bids, int begin, int end) {
 }
 
 /**
- * Perform a quick sort on bid title
+ * Perform a quick sort on bid title:
  * Average performance: O(n log(n))
- * Worst case performance O(n^2))
- *
+ * Worst case performance O(n^2)).
  * @param bids address of the vector<Bid> instance to be sorted
  * @param begin the beginning index to sort on
  * @param end the ending index to sort on
@@ -183,7 +173,6 @@ from the last element of the low partition. The function recursively calls
 itself to sort the high and low partitions so long as the beginning is 
 larger than the end bid and a sort is required.
 */
-// Zybooks Data Structures and Algorithms section 3.18.4
 void quickSort(vector<Bid>& bids, int begin, int end) {
     //set mid equal to 0
     int mid = 0;
@@ -204,14 +193,11 @@ void quickSort(vector<Bid>& bids, int begin, int end) {
     quickSort(bids, mid + 1, end);
 }
 
-// TODO(1a):DONE Implement the selection sort logic over bid.title
 /**
- * Perform a selection sort on bid title
+ * Perform a selection sort on bid title:
  * Average performance: O(n^2))
  * Worst case performance O(n^2))
- *
- * @param bid address of the vector<Bid>
- *            instance to be sorted
+ * @param bid address of the vector<Bid> instance to be sorted
  */
 
 /*
@@ -219,7 +205,6 @@ The selectionSort() function loops through the bids vector, saving the minimum
 value, min, and the index of the value to finally swap the variable min and the 
 next index to the min index. 
 */
-// Zybooks Data Structures and Algorithms section 3.16.1
 void selectionSort(vector<Bid>& bids) {
     //define the variables, i for the all bids
     int i = 0;
@@ -250,20 +235,7 @@ void selectionSort(vector<Bid>& bids) {
 }
 
 /**
- * Simple C function to convert a string to a double
- * after stripping out unwanted char
- *
- * credit: http://stackoverflow.com/a/24875936
- *
- * @param ch The character to strip out
- */
-double strToDouble(string str, char ch) {
-    str.erase(remove(str.begin(), str.end(), ch), str.end());
-    return atof(str.c_str());
-}
-
-/**
- * The one and only main() method
+ * main() method
  */
 int main(int argc, char* argv[]) {
 
@@ -328,7 +300,6 @@ int main(int argc, char* argv[]) {
 
             break;
 
-        // TODO(1b): Invoke the selection sort and report timing results
         case 3:
             // Initialize a timer variable before loading bids
             ticks = clock();
@@ -336,7 +307,6 @@ int main(int argc, char* argv[]) {
             // Complete the method call to selection sort bids
             selectionSort(bids);
 
-            //NOTE: this is printing to the console twice I am not sure why
             //print to console the size of the results read
             cout << "\n" << bids.size() << " bids read" << endl;
 
@@ -346,7 +316,6 @@ int main(int argc, char* argv[]) {
             cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
             break;
 
-        // TODO(2b): Invoke the quick sort and report timing results
         case 4:
             ticks = clock();
 

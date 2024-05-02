@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake --regenerate-during-build -S/Users/s.adams/Cpp/Vector -B/Users/s.adams/Cpp/Vector/cmake-build-debug
+  command = /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake --regenerate-during-build -S/Users/s.adams/Documents/GitHub/Data-Structures-Algorithms-Cpp/Vector -B/Users/s.adams/Documents/GitHub/Data-Structures-Algorithms-Cpp/Vector/cmake-build-debug
   description = Re-running CMake...
   generator = 1
 

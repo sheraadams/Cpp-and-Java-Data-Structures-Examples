@@ -11,8 +11,6 @@ using namespace std;
 
 const unsigned int DEFAULT_SIZE = 179;
 
-double strToDouble(string str, char ch);
-
 // define a structure to hold bid information
 struct Bid {
     string bidId; // unique identifier
@@ -74,7 +72,6 @@ public:
  * Default constructor
  */
 HashTable::HashTable() {
-    // TODO done (1): Initialize the structures used to hold bids
     // Initialize node structure by resizing tableSize
     nodes.resize(tableSize);
 }
@@ -89,14 +86,24 @@ HashTable::HashTable(unsigned int size) {
     // resize nodes size
 }
 
-
 /**
  * Destructor
  */
 HashTable::~HashTable() {
-    // TODO done (2): Implement logic to free storage when class is destroyed
-    nodes.erase(nodes.begin());
-    // erase nodes beginning
+    // Loop through all nodes in the hash table
+    for (Node& node : nodes) {
+        // Pointer to the current node
+        Node* current = &node;
+        // Loop through the linked list starting from this node
+        while (current != nullptr) {
+            // Pointer to the next node
+            Node* next = current->next;
+            // Delete the current node
+            delete current;
+            // Move to the next node
+            current = next;
+        }
+    }
 }
 
 /**
@@ -104,23 +111,19 @@ HashTable::~HashTable() {
  * Note that key is specifically defined as
  * unsigned int to prevent undefined results
  * of a negative list index.
- *
  * @param key The key to hash
  * @return The calculated hash
  */
 unsigned int HashTable::hash(int key) {
-    // TODO done (3): Implement logic to calculate a hash value
     // return key tableSize
     return key % tableSize;
 }
 
 /**
  * Insert a bid
- *
  * @param bid The bid to insert
  */
 void HashTable::Insert(Bid bid) {
-    // TODO done(5): Implement logic to insert a bid
     // convert the string to an integer, calling the hash function
     //to calculate the key and save as key
     unsigned int key = hash(atoi(bid.bidId.c_str()));
@@ -222,7 +225,6 @@ void HashTable::Remove(string bidId) {
  * Search for the specified bidId by @param bidId
  */
 Bid HashTable::Search(string bidId) {
-    // TODO done (8): Implement logic to search for and return a bid
     // create the key for the given bid
     unsigned key = hash(atoi(bidId.c_str()));   
     // create node object at the key position
@@ -293,16 +295,6 @@ void loadBids(string filePath, HashTable *HashTable) {
     }
     // Close the file
     file.close();
-}
-
-
-/**
- * Simple C function to convert a string to a double after stripping out unwanted characters http://stackoverflow.com/a/24875936
- * @param ch is the character to strip out
- */
-double strToDouble(string str, char ch) {
-    str.erase(remove(str.begin(), str.end(), ch), str.end());
-    return atof(str.c_str());
 }
 
 int main(int argc, char* argv[]) {
