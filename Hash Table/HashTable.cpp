@@ -82,8 +82,8 @@ HashTable::HashTable() {
  * by reducing collisions without wasting memory.
  */
 HashTable::HashTable(unsigned int size) {
-    // invoke local tableSize to size with this->
-    // resize nodes size
+    // Initialize node structure by resizing tableSize
+    nodes.resize(size);
 }
 
 /**

@@ -1,10 +1,3 @@
-//============================================================================
-// Name        : VectorSorting.cpp
-// Author      : Shera Adams
-// Version     : 1.0
-// Copyright   : Copyright © 2017 SNHU COCE
-// Description : Vector Sorting Algorithms
-//============================================================================
 #include <algorithm>
 #include <iostream>
 #include <time.h>
@@ -12,50 +5,33 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <memory>
 
 using namespace std;
 
-//============================================================================
-// Global definitions visible to all methods and classes
-//============================================================================
-
-// structure to hold bid information
+// Structure to hold bid information
 struct Bid {
-    string bidId; // unique identifier
+    string bidId;
     string title;
     std::vector<std::string> prerequisites;
 };
 
-//============================================================================
-// Static methods used for testing
-//============================================================================
-
-/**
- * Display the bid information to the console (std::out)
- * @param bid struct containing the bid info
- */
+// Display the bid information to the console
 void displayBid(Bid bid) {
     cout << bid.bidId << ", " << bid.title << endl;
-    // if the prerequisites are not empty
-    if (!bid.prerequisites.empty())
-        // for to print prerequisites
+    if (!bid.prerequisites.empty()) {
         cout << "Prerequisites: ";
-    for (const string& prerequisite : bid.prerequisites) {
-        // if the prerequisite is the last in the vector
-        if (prerequisite == bid.prerequisites.back()) {
-            cout << prerequisite << endl;
+        for (const string& prerequisite : bid.prerequisites) {
+            cout << prerequisite;
+            if (&prerequisite != &bid.prerequisites.back()) {
+                cout << ", ";
+            }
         }
-            // otherwise print separated by comma
-        else {
-            cout << prerequisite << ", ";
-        }
+        cout << endl;
     }
-    return;
 }
-/**
- * Prompt user for bid information using console (std::in) &
- * @return Bid struct containing the bid info
- */
+
+// Prompt user for bid information
 Bid getBid() {
     Bid bid;
 
@@ -69,178 +45,117 @@ Bid getBid() {
     return bid;
 }
 
-/**
- * Load a CSV file containing bids into a container
- * @param csvPath the path to the CSV file to load
- * @return a container holding all the bids read
- */
-void loadBids(string filePath, vector<Bid> & bids) {
+// Load bids from a CSV file into a container
+void loadBids(string filePath, vector<Bid>& bids) {
     cout << "Loading file " << filePath << endl;
 
-    // Open the file for reading
+    // Open the file for reading using ifstream
     ifstream file(filePath);
-    // Check if the file is open, handle error
     if (!file.is_open()) {
         cerr << "Failed to open file: " << filePath << endl;
         return;
     }
+
     string line;
-    // while reading lines of the file
     while (getline(file, line)) {
-        // define variables
         stringstream ss(line);
         string id, name, prerequisite;
         vector<string> prerequisites;
-        // Read the id and name separated by a comma
+
         getline(ss, id, ',');
         getline(ss, name, ',');
-        // Read the prerequisites separated by a comma
         while (getline(ss, prerequisite, ',')) {
             prerequisites.push_back(prerequisite);
         }
-        // Create a bid
+
         Bid bid;
         bid.bidId = id;
         bid.title = name;
         bid.prerequisites = prerequisites;
-        // Insert the bid into the bst
+
         bids.push_back(bid);
     }
-    // Close the file
-    file.close();
+
+    //  ifstream will automatically close the file when it goes out of scope
 }
 
-/**
- * Partition the vector of bids into two parts, low and high.
- * @param bids Address of the vector<Bid> instance to be partitioned
- * @param begin Beginning index to partition
- * @param end Ending index to partition
- */
+// Insert a bid into the vector
+void insertBid(vector<Bid>& bids, Bid bid) {
+    bids.push_back(bid);
+    cout << "Bid inserted successfully." << endl;
+}
 
-/*
-the partition() function to separates the data into a high and a low partition.
-*/
+// Remove a bid from the vector
+void removeBid(vector<Bid>& bids, Bid bidToRemove) {
+    if (bids.empty()) {
+        cout << "No bids to remove." << endl;
+        return;
+    }
+
+    auto it = find_if(bids.begin(), bids.end(), [&](const Bid& bid) { return bid.bidId == bidToRemove.bidId; });
+
+    if (it != bids.end()) {
+        bids.erase(it);
+        cout << "Bid removed successfully." << endl;
+    } else {
+        cout << "Bid with Id " << bidToRemove.bidId << " not found." << endl;
+    }
+}
+
+// Partition the vector of bids into two parts, low and high
 int partition(vector<Bid>& bids, int begin, int end) {
-        // calculate midpoint between begin and end values of bid vector
-        int midpoint = begin + (end - begin) / 2;
-        // set middle element as pivot 
-        Bid pivot = bids.at(midpoint);
-        // set boolean to false
-        bool done = false;
-        // while not done 
-        while (!done) {
-            // increment begin until a value >= to pivot is found
-            while (bids[begin].title < pivot.title) {
-                begin += 1;
-            }
-            // decrement end until a value <less than <= to pivot is found
-            while (pivot.title < bids[end].title) {
-                end -= 1;
-            }
-            /* If there are zero or one elements remaining,
-             all bids are partitioned.  */
-            if (begin >= end) {
-                done = true;
-            }
-            // otherwise swap low and high bids and decrement high/ increment low
-            // repeat until the end and begin reach or pass eachother
-            else {
-                Bid temp = bids[begin];
-                bids[begin] = bids[end];
-                bids[end] = temp;
-                // Update begin and end moving the values closer together
-                begin += 1;
-                end -= 1;
-            }
+    int midpoint = begin + (end - begin) / 2;
+    Bid pivot = bids.at(midpoint);
+    bool done = false;
+
+    while (!done) {
+        while (bids[begin].title < pivot.title) {
+            begin += 1;
         }
-        //return high;
-        return end;
+        while (pivot.title < bids[end].title) {
+            end -= 1;
+        }
+        if (begin >= end) {
+            done = true;
+        } else {
+            Bid temp = bids[begin];
+            bids[begin] = bids[end];
+            bids[end] = temp;
+            begin += 1;
+            end -= 1;
+        }
+    }
+    return end;
 }
 
-/**
- * Perform a quick sort on bid title:
- * Average performance: O(n log(n))
- * Worst case performance O(n^2)).
- * @param bids address of the vector<Bid> instance to be sorted
- * @param begin the beginning index to sort on
- * @param end the ending index to sort on
- */
-
-/*
-The function quicksort() function calls the partition() function to first 
-separate the data into a high and a low partition. A mid variable is created 
-from the last element of the low partition. The function recursively calls 
-itself to sort the high and low partitions so long as the beginning is 
-larger than the end bid and a sort is required.
-*/
+// Perform a quick sort on bid title
 void quickSort(vector<Bid>& bids, int begin, int end) {
-    //set mid equal to 0
-    int mid = 0;
-    /* Base case: If there are 1 or zero bids to sort,
-     partition is already sorted otherwise if begin is greater
-     than or equal to end then return*/
-     /* If the partition is already sorted, the recursive calls will
-    not execute, otherwise the bids will be sorted. */
     if (begin >= end) {
         return;
     }
-    /* Partition bids into low and high such that
-     midpoint is location of last element in low */
-    mid = partition(bids, begin, end);
-    // recursively sort low partition 
+    int mid = partition(bids, begin, end);
     quickSort(bids, begin, mid);
-    // recursively sort high partition 
     quickSort(bids, mid + 1, end);
 }
 
-/**
- * Perform a selection sort on bid title:
- * Average performance: O(n^2))
- * Worst case performance O(n^2))
- * @param bid address of the vector<Bid> instance to be sorted
- */
-
-/*
-The selectionSort() function loops through the bids vector, saving the minimum
-value, min, and the index of the value to finally swap the variable min and the 
-next index to the min index. 
-*/
+// Perform a selection sort on bid title
 void selectionSort(vector<Bid>& bids) {
-    //define the variables, i for the all bids
-    int i = 0;
-    // j for unsorted
-    int j = 0;
-    int min = 0;
-    int temp = 0;  // variable for swap
-    
-    //loop through the full vector
-    for (i = 0; i < bids.size() -1; ++i) {     
-        // min = index
-        min = i;
-        // loop through vector indicies to the right of i
-        //searching for the minimum element 
-        for (j = i + 1; j < bids.size(); ++j) {
-            // if this element's title is less than minimum title
-            if ( bids[j].title < bids[min].title ) {
-                // stores the smallest element of the vector
+    for (int i = 0; i < bids.size() - 1; ++i) {
+        int min = i;
+        for (int j = i + 1; j < bids.size(); ++j) {
+            if (bids[j].title < bids[min].title) {
                 min = j;
             }
-        }  
-        // swap the current min with smaller value found
+        }
         Bid temp = bids[i];
         bids[i] = bids[min];
-        // complete the swap and save 
         bids[min] = temp;
-   }
+    }
 }
 
-/**
- * main() method
- */
+// Main method
 int main(int argc, char* argv[]) {
-
-    system("Color 0D");
-    // process command line arguments
+    // Process command line arguments
     string filePath, bidKey;
     switch (argc) {
         case 2:
@@ -269,67 +184,70 @@ int main(int argc, char* argv[]) {
         cout << "  2. Display All Bids" << endl;
         cout << "  3. Selection Sort All Bids" << endl;
         cout << "  4. Quick Sort All Bids" << endl;
+        cout << "  5. Insert a Bid" << endl;
+        cout << "  6. Remove a Bid" << endl;
         cout << "  9. Exit" << endl;
         cout << "Enter choice:\n ";
         cin >> choice;
 
         switch (choice) {
-
-        case 1:
-            // Initialize a timer variable before loading bids
-            ticks = clock();
-
-            // Complete the method call to load the bids
-            loadBids(filePath, bids);
-
-            //print to console the size of the results read
-            cout << bids.size() << " bids read" << endl;
-
-            // Calculate elapsed time and display result
-            ticks = clock() - ticks; // current clock ticks minus starting clock ticks
-            cout << "time: " << ticks << " clock ticks" << endl;
-            cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
-
-            break;
-
-        case 2:
-            // Loop and display the bids read
-            for (int i = 0; i < bids.size(); ++i) {
-                displayBid(bids[i]);
+            case 1:
+            {
+                ticks = clock();
+                loadBids(filePath, bids);
+                cout << bids.size() << " bids read" << endl;
+                ticks = clock() - ticks;
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
             }
-
-            break;
-
-        case 3:
-            // Initialize a timer variable before loading bids
-            ticks = clock();
-
-            // Complete the method call to selection sort bids
-            selectionSort(bids);
-
-            //print to console the size of the results read
-            cout << "\n" << bids.size() << " bids read" << endl;
-
-            // Calculate elapsed time and display result
-            ticks = clock() - ticks; // current clock ticks minus starting clock ticks
-            cout << "time: " << ticks << " clock ticks" << endl;
-            cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
-            break;
-
-        case 4:
-            ticks = clock();
-
-            // Complete the method call to quick sort bids
-            quickSort(bids, 0, int(bids.size() - 1));
-
-            //print to console the size of the results read
-            cout << "\n" << bids.size() << " bids read" << endl;
-
-            // Calculate elapsed time and display result
-            ticks = clock() - ticks; // current clock ticks minus starting clock ticks
-            cout << "time: " << ticks << " clock ticks" << endl;
-            cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
-            break;
+                break;
+            case 2:
+            {
+                for (int i = 0; i < bids.size(); ++i) {
+                    displayBid(bids[i]);
+                }
+            }
+                break;
+            case 3:
+            {
+                ticks = clock();
+                selectionSort(bids);
+                cout << "\n" << bids.size() << " bids read" << endl;
+                ticks = clock() - ticks;
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+            }
+                break;
+            case 4:
+            {
+                ticks = clock();
+                quickSort(bids, 0, int(bids.size() - 1));
+                cout << "\n" << bids.size() << " bids read" << endl;
+                ticks = clock() - ticks;
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+            }
+                break;
+            case 5:
+            {
+                ticks = clock();
+                Bid newBid = getBid();
+                insertBid(bids, newBid);
+                ticks = clock() - ticks;
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+            }
+                break;
+            case 6:
+            {
+                ticks = clock();
+                Bid bidToRemove = getBid();
+                removeBid(bids, bidToRemove);
+                ticks = clock() - ticks;
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+            }
+                break;
         }
     }
 
