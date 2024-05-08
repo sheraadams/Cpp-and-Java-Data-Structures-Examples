@@ -18,14 +18,6 @@ struct Bid {
     std::vector<std::string> prerequisites;
 };
 
-//============================================================================
-// Hash Table class definition
-//============================================================================
-
-/**
- * Define a class containing data members and methods to
- * implement a hash table with chaining.
- */
 class HashTable {
 
 private:
@@ -78,7 +70,7 @@ HashTable::HashTable() {
 
 /**
  * Constructor for specifying size of the table
- * Use to improve efficiency of hashing algorithm
+ * used to improve efficiency of hashing algorithm
  * by reducing collisions without wasting memory.
  */
 HashTable::HashTable(unsigned int size) {
@@ -86,9 +78,6 @@ HashTable::HashTable(unsigned int size) {
     nodes.resize(size);
 }
 
-/**
- * Destructor
- */
 HashTable::~HashTable() {
     // Loop through all nodes in the hash table
     for (Node& node : nodes) {
@@ -106,23 +95,11 @@ HashTable::~HashTable() {
     }
 }
 
-/**
- * Calculate the hash value of a given key.
- * Note that key is specifically defined as
- * unsigned int to prevent undefined results
- * of a negative list index.
- * @param key The key to hash
- * @return The calculated hash
- */
 unsigned int HashTable::hash(int key) {
     // return key tableSize
     return key % tableSize;
 }
 
-/**
- * Insert a bid
- * @param bid The bid to insert
- */
 void HashTable::Insert(Bid bid) {
     // convert the string to an integer, calling the hash function
     //to calculate the key and save as key
@@ -147,9 +124,6 @@ void HashTable::Insert(Bid bid) {
     }
 }
 
-/**
- * Print all bids
- */
 void HashTable::PrintAll() {
     // loop through nodes of hash table
     for (auto& bidNode : nodes) {
@@ -179,10 +153,6 @@ void HashTable::PrintAll() {
     }
 }
 
-
-/**
- * Remove a bid by @param bidId
- */
 void HashTable::Remove(string bidId) {
     // Call hash function to get the key
     unsigned key = hash(atoi(bidId.c_str()));
@@ -221,9 +191,6 @@ void HashTable::Remove(string bidId) {
     }
 }
 
-/**
- * Search for the specified bidId by @param bidId
- */
 Bid HashTable::Search(string bidId) {
     // create the key for the given bid
     unsigned key = hash(atoi(bidId.c_str()));   
@@ -243,25 +210,25 @@ Bid HashTable::Search(string bidId) {
     return Bid();
 }
 
-
-//============================================================================
-// Static methods used for testing
-//============================================================================
-
-/**
- * Display the bid information to the console (std::out)
- *
- * @param bid struct containing the bid info
- */
 void displayBid(Bid bid) {
     cout << bid.bidId << ": " << bid.title << endl;
     return;
 }
 
-/**
- * Load a CSV file containing bids into a container @param filePath the path to the file to load
- * @return a container holding all the bids read
- */
+// Prompt user for bid information
+Bid getBid() {
+    Bid bid;
+
+    cout << "Enter Id: ";
+    cin.ignore();
+    getline(cin, bid.bidId);
+
+    cout << "Enter title: ";
+    getline(cin, bid.title);
+
+    return bid;
+}
+
 void loadBids(string filePath, HashTable *HashTable) {
     cout << "Loading file " << filePath << endl;
     // Open the file for reading
@@ -330,55 +297,66 @@ int main(int argc, char* argv[]) {
         cout << "  2. Display All Bids" << endl;
         cout << "  3. Find Bid" << endl;
         cout << "  4. Remove Bid" << endl;
+        cout << "  5. Insert Bid" << endl;
         cout << "  9. Exit" << endl;
         cout << "Enter choice: ";
         cin >> choice;
         cout << endl;
         switch (choice) {
 
-        case 1:
-            
-            // Initialize a timer variable before loading bids
-            ticks = clock();
+            case 1: {
 
-            // Complete the method call to load the bids
-            loadBids(filePath, bidTable);
+                // Initialize a timer variable before loading bids
+                ticks = clock();
 
-            // Calculate elapsed time and display result
-            ticks = clock() - ticks; // current clock ticks minus starting clock ticks
-            cout << "time: " << ticks << " clock ticks" << endl;
-            cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
-            break;
+                // Complete the method call to load the bids
+                loadBids(filePath, bidTable);
 
-        case 2:
-            bidTable->PrintAll();
-            break;
-
-        case 3:
-            ticks = clock();
-            // added necessary input to search bid by key
-            cout << "Enter id of bid to search:" << endl;
-            cin >> bidKey;
-            bid = bidTable->Search(bidKey);
-
-            ticks = clock() - ticks; // current clock ticks minus starting clock ticks
-
-            if (!bid.bidId.empty()) {
-                displayBid(bid);
-            } else {
-                cout << "Bid Id " << bidKey << " not found." << endl;
+                // Calculate elapsed time and display result
+                ticks = clock() - ticks; // current clock ticks minus starting clock ticks
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
             }
+                break;
 
-            cout << "time: " << ticks << " clock ticks" << endl;
-            cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
-            break;
+            case 2: {
+                bidTable->PrintAll();
+            }
+                break;
 
-        case 4:
-            // added necessary input to remove bid by key
-            cout << "Enter id of bid to remove:" << endl;
-            cin >> bidKey;
-            bidTable->Remove(bidKey);
-            break;
+            case 3: {
+                ticks = clock();
+                // added necessary input to search bid by key
+                cout << "Enter id of bid to search:" << endl;
+                cin >> bidKey;
+                bid = bidTable->Search(bidKey);
+
+                ticks = clock() - ticks; // current clock ticks minus starting clock ticks
+
+                if (!bid.bidId.empty()) {
+                    displayBid(bid);
+                } else {
+                    cout << "Bid Id " << bidKey << " not found." << endl;
+                }
+
+                cout << "time: " << ticks << " clock ticks" << endl;
+                cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+            }
+                break;
+
+            case 4: {
+                    cout << "Enter id of bid to remove:" << endl;
+                    cin >> bidKey;
+                    bidTable->Remove(bidKey);
+            }
+                break;
+
+            case 5: {
+                    cout << "Enter id of bid to insert:" << endl;
+                    Bid bidToInsert= getBid();
+                    bidTable->Insert(bidToInsert);
+            }
+                    break;
         }
     }
     cout << "Good bye." << endl;
